@@ -6,24 +6,36 @@ pip>=23.0.1
 --only-binary :all:
 --prefer-binary
 
+# FastAPI and server
 fastapi==0.109.2
 uvicorn[standard]==0.27.1
-sqlalchemy==2.0.27
-pydantic==2.5.3
-python-jose==3.3.0
-passlib[bcrypt]==1.7.4
-python-multipart==0.0.9
-python-dotenv==1.0.1
-psycopg2-binary==2.9.10
-asyncpg==0.30.0
-alembic==1.13.1
 gunicorn==21.2.0
+
+# Database
+sqlalchemy==2.0.27
+psycopg2-binary==2.9.10
+alembic==1.13.1
+
+# Data validation and serialization
+pydantic==2.7.4
 email-validator==2.1.0.post1
-bcrypt==4.1.2
 typing-extensions==4.9.0
-starlette==0.36.3
-anyio==4.2.0
-pytest==8.0.1
+
+# Authentication and security
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+bcrypt==4.1.2
+cryptography==42.0.5
+
+# HTTP and forms
+python-multipart==0.0.9
 httpx==0.26.0
-tenacity==8.2.3
-cryptography==42.0.5 
+starlette==0.36.3
+
+# Utilities
+python-dotenv==1.0.1
+anyio==4.2.0
+
+# Testing (optional - can remove for production)
+pytest==8.0.1
+pytest-asyncio==0.23.5 
