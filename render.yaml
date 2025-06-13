@@ -8,19 +8,20 @@ services:
     pythonVersion: "3.11"
     
     buildCommand: |
+      python --version
+      pwd
+      ls -la
       pip install --upgrade pip
       pip install --use-deprecated=legacy-resolver -r requirements.txt
     
     startCommand: |
-      alembic upgrade head && 
-      gunicorn app.main:app \
-        --workers 4 \
-        --worker-class uvicorn.workers.UvicornWorker \
-        --bind 0.0.0.0:$PORT \
-        --timeout 120 \
-        --access-logfile - \
-        --error-logfile - \
-        --chdir /opt/render/project/src/backend
+      pwd
+      ls -la
+      export PYTHONPATH=/opt/render/project/src:$PYTHONPATH
+      echo "PYTHONPATH: $PYTHONPATH"
+      python -c "import sys; print('Python paths:', sys.path)"
+      alembic upgrade head
+      gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT --timeout 120 --access-logfile - --error-logfile -
     
     healthCheckPath: /health
     
@@ -38,9 +39,11 @@ services:
       - key: FRONTEND_URL
         value: https://taskflow-frontend.onrender.com
       - key: PYTHONPATH
-        value: /opt/render/project/src/backend
+        value: .
       - key: PYTHONUNBUFFERED
         value: "1"
+      - key: PORT
+        value: "10000"
 
 databases:
   - name: taskflow-db
