@@ -9,7 +9,7 @@ pip>=23.0.1
 fastapi==0.109.2
 uvicorn[standard]==0.27.1
 sqlalchemy==2.0.27
-pydantic==2.7.1
+pydantic==2.7.4
 python-jose==3.3.0
 passlib[bcrypt]==1.7.4
 python-multipart==0.0.9
@@ -25,4 +25,5 @@ starlette==0.36.3
 anyio==4.2.0
 pytest==8.0.1
 httpx==0.26.0
-tenacity==8.2.3 
+tenacity==8.2.3
+cryptography==42.0.5 
