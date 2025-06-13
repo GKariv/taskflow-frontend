@@ -6,20 +6,14 @@ services:
     plan: free
     buildCommand: |
       cd backend
-      python -m pip install --upgrade pip setuptools wheel
-      pip install --no-cache-dir --no-build-isolation --no-deps -r requirements.txt
-      pip install --no-cache-dir --no-build-isolation --no-deps .
-    startCommand: |
-      cd backend
-      export PYTHONPATH=$PYTHONPATH:$(pwd)
-      # Initialize database with retries
-      python -c "from app.database import init_db; init_db()"
-      # Run migrations
+      pip install --upgrade pip setuptools wheel
+      pip install -r requirements.txt --no-cache-dir
       alembic upgrade head
-      # Start the application
-      gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT --timeout 120
+    startCommand: cd backend && gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT --timeout 120
     healthCheckPath: /api/health
     envVars:
+      - key: PORT
+        value: "10000"
       - key: DATABASE_URL
         fromDatabase:
           name: taskflow-db
@@ -29,29 +23,23 @@ services:
       - key: ALGORITHM
         value: HS256
       - key: ACCESS_TOKEN_EXPIRE_MINUTES
-        value: 30
+        value: "30"
       - key: FRONTEND_URL
-        value: https://taskflow-frontend.onrender.com
+        value: https://taskflow-ai.vercel.app
       - key: WORKERS
-        value: 4
+        value: "4"
       - key: TIMEOUT
-        value: 120
+        value: "120"
+      - key: PYTHONPATH
+        value: /app
       - key: PYTHONUNBUFFERED
-        value: 1
-      - key: PYTHON_VERSION
-        value: 3.11.7
-      - key: SQLALCHEMY_ECHO
-        value: "true"
-      - key: LOG_LEVEL
-        value: "INFO"
+        value: "1"
       - key: PIP_NO_CACHE_DIR
         value: "1"
       - key: PIP_DISABLE_PIP_VERSION_CHECK
         value: "1"
-      - key: CRYPTOGRAPHY_DONT_BUILD_RUST
-        value: "1"
-      - key: MATURIN_PEP517_ARGS
-        value: "--no-rust"
+      - key: PYTHON_VERSION
+        value: "3.11.7"
 
 databases:
   - name: taskflow-db

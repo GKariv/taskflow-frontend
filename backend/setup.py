@@ -13,7 +13,7 @@ setup(
         "passlib[bcrypt]==1.7.4",
         "python-multipart==0.0.9",
         "python-dotenv==1.0.1",
-        "psycopg2-binary==2.9.9",
+        "psycopg2-binary==2.9.10",
         "asyncpg==0.29.0",
         "alembic==1.13.1",
         "gunicorn==21.2.0",
