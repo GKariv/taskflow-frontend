@@ -8,7 +8,7 @@ setup(
         "fastapi==0.109.2",
         "uvicorn[standard]==0.27.1",
         "sqlalchemy==2.0.27",
-        "pydantic==2.6.1",
+        "pydantic==2.7.1",
         "python-jose==3.3.0",
         "passlib[bcrypt]==1.7.4",
         "python-multipart==0.0.9",
