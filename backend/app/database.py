@@ -1,9 +1,9 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
 from tenacity import retry, stop_after_attempt, wait_exponential
 import os
 import logging
+from .models.base import Base
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -27,7 +27,6 @@ engine = create_engine(
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-Base = declarative_base()
 
 @retry(
     stop=stop_after_attempt(5),

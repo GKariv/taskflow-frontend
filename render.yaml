@@ -17,6 +17,7 @@ services:
       pip install -r backend/requirements.txt
       echo "=== Initializing Migrations ==="
       cd backend
+      export PYTHONPATH=/opt/render/project/src:$PYTHONPATH
       alembic init migrations || true
       echo "=== Build Complete ==="
     
