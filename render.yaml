@@ -24,8 +24,6 @@ services:
       echo "=== Starting Application ==="
       cd backend
       export PYTHONPATH=/opt/render/project/src/backend:$PYTHONPATH
-      echo "=== Running Migrations ==="
-      alembic upgrade head || echo "Migration failed, continuing..."
       echo "=== Starting Server ==="
       gunicorn app.main:app \
         --workers 4 \
