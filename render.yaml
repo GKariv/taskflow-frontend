@@ -7,7 +7,7 @@ services:
     buildCommand: |
       cd backend
       pip install --upgrade pip setuptools wheel
-      pip install -r requirements.txt --no-cache-dir
+      pip install --no-cache-dir --no-build-isolation -r requirements.txt
       alembic upgrade head
     startCommand: cd backend && gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT --timeout 120
     healthCheckPath: /api/health
@@ -40,6 +40,8 @@ services:
         value: "1"
       - key: PYTHON_VERSION
         value: "3.11.7"
+      - key: PIP_CONSTRAINT
+        value: "pydantic-core>=2.20.0"
 
 databases:
   - name: taskflow-db
