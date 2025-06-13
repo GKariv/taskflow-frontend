@@ -1,3 +1,74 @@
+# TaskFlow Project
+
+This project is organized into two main parts: frontend and backend.
+
+## Project Structure
+
+```
+taskflow-ai-local/
+├── frontend/                 # Frontend application (React + TypeScript)
+│   ├── src/                 # Source files
+│   ├── public/             # Static files
+│   ├── package.json        # Frontend dependencies
+│   └── ...                 # Other frontend configuration files
+│
+└── backend/                # Backend application (Python + FastAPI)
+    ├── app/               # Backend source code
+    │   ├── main.py       # FastAPI application entry point
+    │   ├── models/       # Database models
+    │   ├── schemas/      # Pydantic schemas
+    │   ├── routes/       # API routes
+    │   └── services/     # Business logic
+    ├── tests/            # Backend tests
+    └── requirements.txt  # Python dependencies
+```
+
+## Frontend (React + TypeScript)
+
+The frontend is built with:
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Shadcn UI
+
+To run the frontend:
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+## Backend (Python + FastAPI)
+
+The backend is built with:
+- FastAPI
+- SQLAlchemy
+- Pydantic
+- Python-Jose for JWT
+- Passlib for password hashing
+
+To run the backend:
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+```
+
+## Development
+
+1. Start the backend server first (runs on http://localhost:8000)
+2. Start the frontend development server (runs on http://localhost:5173)
+3. The frontend will automatically connect to the backend API
+
+## API Documentation
+
+Once the backend is running, you can access:
+- Swagger UI: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
+
 # Welcome to your Lovable project
 
 ## Project info
