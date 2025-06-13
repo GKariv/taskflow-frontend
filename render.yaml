@@ -4,7 +4,7 @@ services:
     runtime: python
     region: oregon
     plan: free
-    rootDir: backend
+    rootDir: .
     pythonVersion: "3.11"
     
     buildCommand: |
@@ -14,11 +14,12 @@ services:
       ls -la
       echo "=== Installing Dependencies ==="
       pip install --upgrade pip
-      pip install --use-deprecated=legacy-resolver -r requirements.txt
+      pip install --use-deprecated=legacy-resolver -r backend/requirements.txt
       echo "=== Build Complete ==="
     
     startCommand: |
       echo "=== Starting Application ==="
+      cd backend
       pwd
       ls -la
       echo "=== Setting Python Path ==="
