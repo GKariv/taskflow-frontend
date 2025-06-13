@@ -1,25 +1,70 @@
 from logging.config import fileConfig
 import os
 import sys
+from pathlib import Path
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
 
-# Debug prints
-print("sys.path =", sys.path)
-print("Current dir:", os.getcwd())
+# Add the backend directory to Python path
+backend_dir = str(Path(__file__).parent.parent.absolute())
+sys.path.insert(0, backend_dir)
 
-# Import all models
-from app.database import Base
-import app.models
-import importlib
-import pkgutil
+print("=== Debug Information ===")
+print("Current working directory:", os.getcwd())
+print("Python path:", sys.path)
+print("Backend directory:", backend_dir)
 
-# Load all models dynamically
-for loader, module_name, is_pkg in pkgutil.iter_modules(app.models.__path__):
-    importlib.import_module(f"{app.models.__name__}.{module_name}")
+try:
+    from app.database import Base
+    print("Successfully imported Base from app.database")
+except Exception as e:
+    print("Error importing Base:", str(e))
+    raise
+
+try:
+    from app.models.base import BaseModel
+    print("Successfully imported BaseModel from app.models.base")
+except Exception as e:
+    print("Error importing BaseModel:", str(e))
+    raise
+
+try:
+    from app.models.user import User
+    print("Successfully imported User from app.models.user")
+except Exception as e:
+    print("Error importing User:", str(e))
+    raise
+
+try:
+    from app.models.task import Task
+    print("Successfully imported Task from app.models.task")
+except Exception as e:
+    print("Error importing Task:", str(e))
+    raise
+
+try:
+    from app.models.project import Project
+    print("Successfully imported Project from app.models.project")
+except Exception as e:
+    print("Error importing Project:", str(e))
+    raise
+
+try:
+    from app.models.comment import Comment
+    print("Successfully imported Comment from app.models.comment")
+except Exception as e:
+    print("Error importing Comment:", str(e))
+    raise
+
+try:
+    from app.models.notification import Notification
+    print("Successfully imported Notification from app.models.notification")
+except Exception as e:
+    print("Error importing Notification:", str(e))
+    raise
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

@@ -17,14 +17,14 @@ services:
       pip install -r backend/requirements.txt
       echo "=== Initializing Migrations ==="
       cd backend
-      export PYTHONPATH=/opt/render/project/src:$PYTHONPATH
+      export PYTHONPATH=/opt/render/project/src/backend:$PYTHONPATH
       alembic init migrations || true
       echo "=== Build Complete ==="
     
     startCommand: |
       echo "=== Starting Application ==="
       cd backend
-      export PYTHONPATH=/opt/render/project/src:$PYTHONPATH
+      export PYTHONPATH=/opt/render/project/src/backend:$PYTHONPATH
       echo "=== Starting Server ==="
       gunicorn app.main:app \
         --workers 4 \
@@ -52,7 +52,7 @@ services:
       - key: CORS_ORIGINS
         value: "*"
       - key: PYTHONPATH
-        value: /opt/render/project/src
+        value: /opt/render/project/src/backend
       - key: PYTHONUNBUFFERED
         value: "1"
       - key: PORT
