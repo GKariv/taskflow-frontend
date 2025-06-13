@@ -1,5 +1,5 @@
-# Use Python 3.11.7 slim image
-FROM python:3.11.7-slim
+# Use Python 3.11 slim image
+FROM python:3.11-slim
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1 \
@@ -20,10 +20,8 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt .
 
 # Install Python dependencies
-RUN pip install --upgrade pip && \
-    pip install --upgrade setuptools wheel && \
-    pip install --no-cache-dir -r requirements.txt && \
-    pip install -e .
+RUN pip install --upgrade pip setuptools wheel && \
+    pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application
 COPY . .
