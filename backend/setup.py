@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from setuptools import setup, find_packages
 
 setup(
@@ -5,6 +6,8 @@ setup(
     version="1.0.0",
     packages=find_packages(),
     install_requires=[
+        "setuptools>=65.5.1",
+        "wheel>=0.38.4",
         "fastapi==0.109.2",
         "uvicorn[standard]==0.27.1",
         "gunicorn==21.2.0",
@@ -36,4 +39,5 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3.11",
     ],
+    setup_requires=["setuptools>=65.5.1", "wheel>=0.38.4"],
 ) 
