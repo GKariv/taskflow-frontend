@@ -13,7 +13,7 @@ setup(
         "uvicorn[standard]==0.27.1",
         "gunicorn==21.2.0",
         "sqlalchemy==2.0.27",
-        "psycopg2-binary==2.9.9",
+        "psycopg2-binary==2.9.10",
         "alembic==1.13.1",
         "pydantic>=2.0.0,<3.0.0",
         "email-validator==2.1.0.post1",
