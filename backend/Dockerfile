@@ -1,20 +1,25 @@
-FROM python:3.11-slim
+FROM python:3.11-bullseye
 
 WORKDIR /app
 
-# Install system dependencies including Rust
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpq-dev \
     curl \
-    && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y \
-    && . $HOME/.cargo/env \
+    pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
-# Set environment variables
-ENV PATH="/root/.cargo/bin:${PATH}"
-ENV RUSTUP_HOME="/root/.rustup"
-ENV CARGO_HOME="/root/.cargo"
+# Set up Rust with custom paths
+ENV RUSTUP_HOME=/app/.rustup
+ENV CARGO_HOME=/app/.cargo
+ENV PATH="/app/.cargo/bin:${PATH}"
+
+# Install Rust
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y \
+    && . $CARGO_HOME/env \
+    && rustup default stable \
+    && rustup target add x86_64-unknown-linux-gnu
 
 # Install Python dependencies
 COPY requirements.txt .
