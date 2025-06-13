@@ -4,8 +4,8 @@ services:
     env: docker
     region: oregon
     plan: free
-    rootDir: backend
-    dockerfilePath: ./Dockerfile
+    rootDir: .
+    dockerfilePath: backend/Dockerfile
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -23,6 +23,12 @@ services:
         value: 4
       - key: TIMEOUT
         value: 120
+      - key: PYTHONPATH
+        value: /app
+      - key: CARGO_HOME
+        value: /app/.cargo
+      - key: RUSTUP_HOME
+        value: /app/.rustup
 
 databases:
   - name: taskflow-db
