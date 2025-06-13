@@ -2,8 +2,8 @@
 FROM python:3.11-slim
 
 # Set environment variables
-ENV PYTHONUNBUFFERED=1 \
-    PYTHONDONTWRITEBYTECODE=1 \
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
     PYTHONPATH=/app
 
 # Set work directory
@@ -15,22 +15,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements first to leverage Docker cache
-COPY requirements.txt .
-
 # Install Python dependencies
+COPY requirements.txt .
 RUN pip install --no-cache-dir --use-deprecated=legacy-resolver -r requirements.txt
 
-# Copy the rest of the application
+# Copy project
 COPY . .
 
-# Run migrations and start the application
-CMD alembic upgrade head && \
-    gunicorn app.main:app \
-    --workers 4 \
-    --worker-class uvicorn.workers.UvicornWorker \
-    --bind 0.0.0.0:$PORT \
-    --timeout 120 \
-    --access-logfile - \
-    --error-logfile - \
-    --log-level info 
+# Run database migrations
+RUN alembic upgrade head
+
+# Run gunicorn
+CMD ["gunicorn", "app.main:app", "--workers", "4", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000", "--chdir", "/app"] 
