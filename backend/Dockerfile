@@ -6,24 +6,12 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpq-dev \
-    curl \
-    gcc \
     && rm -rf /var/lib/apt/lists/*
 
-# Set up Rust environment variables
-ENV CARGO_HOME=/app/.cargo
-ENV RUSTUP_HOME=/app/.rustup
-ENV PATH="/app/.cargo/bin:${PATH}"
-
-# Install Rust
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y \
-    && . $CARGO_HOME/env \
-    && rustup default stable \
-    && rustup target add x86_64-unknown-linux-gnu
-
-# Install Python dependencies
+# Install Python dependencies with pre-built wheels
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir --prefer-binary -r requirements.txt
 
 # Copy application code
 COPY . .
