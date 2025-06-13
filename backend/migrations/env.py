@@ -17,6 +17,11 @@ print("Current working directory:", os.getcwd())
 print("Python path:", sys.path)
 print("Backend directory:", backend_dir)
 
+# Get DATABASE_URL from environment
+DATABASE_URL = os.getenv("DATABASE_URL")
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL environment variable is not set")
+
 try:
     from app.database import Base
     print("Successfully imported Base from app.database")
@@ -69,6 +74,9 @@ except Exception as e:
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
+
+# Override sqlalchemy.url with DATABASE_URL from environment
+config.set_main_option("sqlalchemy.url", DATABASE_URL)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
