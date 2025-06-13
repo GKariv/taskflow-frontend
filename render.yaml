@@ -8,20 +8,33 @@ services:
     pythonVersion: "3.11"
     
     buildCommand: |
+      echo "=== Build Environment ==="
       python --version
       pwd
       ls -la
+      echo "=== Installing Dependencies ==="
       pip install --upgrade pip
       pip install --use-deprecated=legacy-resolver -r requirements.txt
+      echo "=== Build Complete ==="
     
     startCommand: |
+      echo "=== Starting Application ==="
       pwd
       ls -la
-      export PYTHONPATH=/opt/render/project/src:$PYTHONPATH
+      echo "=== Setting Python Path ==="
+      export PYTHONPATH=/opt/render/project/src/backend:$PYTHONPATH
       echo "PYTHONPATH: $PYTHONPATH"
       python -c "import sys; print('Python paths:', sys.path)"
+      echo "=== Running Migrations ==="
       alembic upgrade head
-      gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT --timeout 120 --access-logfile - --error-logfile -
+      echo "=== Starting Server ==="
+      gunicorn app.main:app \
+        --workers 4 \
+        --worker-class uvicorn.workers.UvicornWorker \
+        --bind 0.0.0.0:$PORT \
+        --timeout 120 \
+        --access-logfile - \
+        --error-logfile -
     
     healthCheckPath: /health
     
@@ -39,7 +52,7 @@ services:
       - key: FRONTEND_URL
         value: https://taskflow-frontend.onrender.com
       - key: PYTHONPATH
-        value: .
+        value: /opt/render/project/src/backend
       - key: PYTHONUNBUFFERED
         value: "1"
       - key: PORT
