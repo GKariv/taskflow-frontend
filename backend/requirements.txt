@@ -3,10 +3,6 @@ setuptools>=65.5.1
 wheel>=0.38.4
 pip>=23.0.1
 
---no-binary :all:
---only-binary :all:
---prefer-binary
-
 # FastAPI and server
 fastapi==0.109.2
 uvicorn[standard]==0.27.1
