@@ -20,7 +20,8 @@ print("Backend directory:", backend_dir)
 # Get DATABASE_URL from environment
 DATABASE_URL = os.getenv("DATABASE_URL")
 if not DATABASE_URL:
-    raise ValueError("DATABASE_URL environment variable is not set")
+    print("Warning: DATABASE_URL environment variable is not set, using dummy URL")
+    DATABASE_URL = "postgresql://dummy"
 
 try:
     from app.database import Base
@@ -124,6 +125,11 @@ def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
+    # Handle the case where DATABASE_URL is not set
+    if DATABASE_URL == "postgresql://dummy":
+        print("Skipping migrations - DATABASE_URL not set")
+        return
+
     connectable = engine_from_config(
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
