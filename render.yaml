@@ -5,7 +5,7 @@ services:
     region: oregon
     plan: free
     rootDir: .
-    dockerfilePath: backend/Dockerfile
+    dockerfilePath: ./backend/Dockerfile
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -26,13 +26,17 @@ services:
       - key: PYTHONPATH
         value: /app
       - key: PYTHONUNBUFFERED
-        value: "1"
+        value: 1
       - key: PIP_NO_CACHE_DIR
-        value: "1"
+        value: 1
       - key: PIP_DISABLE_PIP_VERSION_CHECK
-        value: "1"
+        value: 1
       - key: PYTHON_VERSION
-        value: "3.11.7"
+        value: 3.11.7
+      - key: CARGO_HOME
+        value: /tmp/.cargo
+      - key: RUSTUP_HOME
+        value: /tmp/.rustup
 
 databases:
   - name: taskflow-db
