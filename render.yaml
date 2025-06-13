@@ -1,11 +1,15 @@
 services:
   - type: web
     name: taskflow-backend
-    env: docker
+    env: python
     region: oregon
     plan: free
-    rootDir: .
-    dockerfilePath: ./backend/Dockerfile
+    buildCommand: |
+      cd backend
+      pip install -r requirements.txt
+    startCommand: |
+      cd backend
+      alembic upgrade head && gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT --timeout 120
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -33,12 +37,7 @@ services:
         value: 1
       - key: PYTHON_VERSION
         value: 3.11.7
-      - key: CARGO_HOME
-        value: /tmp/.cargo
-      - key: RUSTUP_HOME
-        value: /tmp/.rustup
 
 databases:
   - name: taskflow-db
-    databaseName: taskflow
     plan: free 
