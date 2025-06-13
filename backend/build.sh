@@ -1,13 +1,15 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # exit on error
 set -o errexit
 
-# Upgrade pip and install build tools
+# Upgrade pip
 pip install --upgrade pip
+
+# Install build tools
 pip install --upgrade setuptools wheel
 
-# Install dependencies
-pip install --no-cache-dir -r requirements.txt
+# Install dependencies with legacy resolver
+pip install --use-deprecated=legacy-resolver -r requirements.txt
 
 # Install the package in development mode
 pip install -e .
