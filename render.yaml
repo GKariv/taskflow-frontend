@@ -23,7 +23,7 @@ services:
     startCommand: |
       echo "=== Starting Application ==="
       cd backend
-      export PYTHONPATH=/opt/render/project/src/backend:$PYTHONPATH
+      export PYTHONPATH=/opt/render/project/src:$PYTHONPATH
       echo "=== Starting Server ==="
       gunicorn app.main:app \
         --workers 4 \
@@ -51,7 +51,7 @@ services:
       - key: CORS_ORIGINS
         value: "*"
       - key: PYTHONPATH
-        value: /opt/render/project/src/backend
+        value: /opt/render/project/src
       - key: PYTHONUNBUFFERED
         value: "1"
       - key: PORT
