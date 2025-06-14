@@ -18,11 +18,15 @@ VERCEL_URL = os.getenv("VERCEL_URL", "")
 ALLOWED_ORIGINS = [FRONTEND_URL]
 if VERCEL_URL:
     ALLOWED_ORIGINS.append(f"https://{VERCEL_URL}")
+    ALLOWED_ORIGINS.append(f"http://{VERCEL_URL}")
 
 app = FastAPI(
     title="TaskFlow API",
     description="TaskFlow API for task management",
-    version="1.0.0"
+    version="1.0.0",
+    docs_url="/api/docs",
+    redoc_url="/api/redoc",
+    openapi_url="/api/openapi.json"
 )
 
 # CORS configuration
@@ -51,14 +55,14 @@ async def general_exception_handler(request, exc):
         content={"detail": "Internal server error"},
     )
 
-# Health check endpoint - Required for Render
-@app.get("/health")
+# Health check endpoint
+@app.get("/api/health")
 async def health_check():
-    return {"status": "healthy"}
+    return {"status": "healthy", "environment": os.getenv("VERCEL_ENV", "development")}
 
-@app.get("/")
+@app.get("/api")
 async def root():
-    return {"message": "TaskFlow API is running"}
+    return {"message": "TaskFlow API is running", "version": "1.0.0"}
 
 # Register your routers
 # app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
