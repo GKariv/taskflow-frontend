@@ -11,4 +11,4 @@ restartPolicyMaxRetries = 10
 
 [env]
 PORT = "3000"
-VITE_API_URL = "https://taskflow-backend.onrender.com" 
+VITE_API_URL = "https://taskflow-backend-production.up.railway.app" 
