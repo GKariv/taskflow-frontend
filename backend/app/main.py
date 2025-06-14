@@ -4,6 +4,7 @@ from fastapi.responses import JSONResponse
 import os
 import logging
 from .health import router as health_router
+from datetime import datetime
 
 # Configure logging
 logging.basicConfig(
@@ -32,7 +33,7 @@ app = FastAPI(
 # CORS configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=ALLOWED_ORIGINS,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -60,13 +61,18 @@ async def general_exception_handler(request, exc):
 async def health_check():
     return {"status": "healthy", "environment": os.getenv("VERCEL_ENV", "development")}
 
-@app.get("/api")
+@app.get("/")
 async def root():
-    return {"message": "TaskFlow API is running", "version": "1.0.0"}
+    return {"message": "TaskFlow Backend API is running", "version": "1.0.0"}
 
 @app.get("/api/connection-test")
 async def connection_test():
-    return {"message": "Hello from backend! Connection successful!"}
+    return {
+        "status": "success",
+        "message": "Backend is connected successfully!",
+        "timestamp": datetime.now().isoformat(),
+        "server": "Render"
+    }
 
 # Register your routers
 # app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
