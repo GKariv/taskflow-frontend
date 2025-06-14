@@ -12,8 +12,12 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Import your routers here
-# from app.routers import auth, users, tasks
+# Get environment variables with fallbacks
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
+VERCEL_URL = os.getenv("VERCEL_URL", "")
+ALLOWED_ORIGINS = [FRONTEND_URL]
+if VERCEL_URL:
+    ALLOWED_ORIGINS.append(f"https://{VERCEL_URL}")
 
 app = FastAPI(
     title="TaskFlow API",
@@ -24,7 +28,7 @@ app = FastAPI(
 # CORS configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[os.getenv("FRONTEND_URL", "http://localhost:3000")],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
