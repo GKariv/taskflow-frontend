@@ -15,11 +15,11 @@ logger = logging.getLogger(__name__)
 
 # Get environment variables with fallbacks
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
-VERCEL_URL = os.getenv("VERCEL_URL", "")
+# VERCEL_URL = os.getenv("VERCEL_URL", "") # Removed
 ALLOWED_ORIGINS = [FRONTEND_URL]
-if VERCEL_URL:
-    ALLOWED_ORIGINS.append(f"https://{VERCEL_URL}")
-    ALLOWED_ORIGINS.append(f"http://{VERCEL_URL}")
+# if VERCEL_URL: # Removed
+#     ALLOWED_ORIGINS.append(f"https://{VERCEL_URL}") # Removed
+#     ALLOWED_ORIGINS.append(f"http://{VERCEL_URL}") # Removed
 
 app = FastAPI(
     title="TaskFlow API",
@@ -59,7 +59,7 @@ async def general_exception_handler(request, exc):
 # Health check endpoint
 @app.get("/api/health")
 async def health_check():
-    return {"status": "healthy", "environment": os.getenv("VERCEL_ENV", "development")}
+    return {"status": "healthy", "environment": "development"}
 
 @app.get("/")
 async def root():
