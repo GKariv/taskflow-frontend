@@ -10,10 +10,10 @@ export default defineConfig(({ mode }) => ({
     port: process.env.PORT || 8080,
     proxy: {
       '/api': {
-        target: process.env.VITE_API_URL || 'https://backend-rander.onrender.com',
+        target: process.env.VITE_API_URL || 'https://taskflow-backend-ov87.onrender.com',
         changeOrigin: true,
         secure: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
+        rewrite: (path) => path.replace(/^\/api/, '/api')
       }
     }
   },

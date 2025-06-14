@@ -64,6 +64,10 @@ async def health_check():
 async def root():
     return {"message": "TaskFlow API is running", "version": "1.0.0"}
 
+@app.get("/api/connection-test")
+async def connection_test():
+    return {"message": "Hello from backend! Connection successful!"}
+
 # Register your routers
 # app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
 # app.include_router(users.router, prefix="/api/users", tags=["users"])
